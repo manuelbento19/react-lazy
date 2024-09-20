@@ -1,50 +1,66 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# @bentoo/react-lazy
 
-Currently, two official plugins are available:
+Uma biblioteca para facilitar o a implementação de Lazy Loading com React.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Instalação
 
-## Expanding the ESLint configuration
+Você pode instalar o pacote via NPM:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+```bash
+npm install @bentoo/react-lazy
+```
+ou via Yarn:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+yarn add @bentoo/react-lazy
+```
+ou via pnpm
+```bash
+pnpm add @bentoo/react-lazy
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Uso
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Aqui está um exemplo básico de como usar o `@bentoo/react-lazy` em seu projeto:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```tsx
+import React from 'react';
+import { LazyComponent } from '@bentoo/react-lazy';
+
+const App = () => {
+  return (
+    <div>
+      <h1>My image</h1>
+        <LazyComponent fallback={<h1>Loading...</h1>}>
+          <img src='/myPicture.png' alt='MyPicture'/>
+        </LazyComponent>
+    </div>
+  );
+};
+
+export default App;
 ```
+
+### Propriedades
+
+`LazyComponent` aceita as seguintes propriedades:
+
+| Propriedade | Tipo      | Descrição                     |
+|-------------|-----------|-------------------------------|
+| `fallback` |	`ReactNode` |	O conteúdo a ser exibido enquanto o componente está sendo carregado.|
+|children	| `ReactNode`	| O conteúdo que será exibido após o carregamento.|
+
+## Contribuição
+
+Se você deseja contribuir, fique à vontade para abrir um pull request ou reportar um problema. 
+
+1. Faça um fork do projeto.
+2. Crie sua feature branch (`git checkout -b minha-nova-funcionalidade`).
+3. Commit suas mudanças (`git commit -m 'Adicionando nova funcionalidade'`).
+4. Faça um push para a branch (`git push origin minha-nova-funcionalidade`).
+5. Abra um Pull Request.
+
+## Licença
+
+Este projeto está licenciado sob a MIT License. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
