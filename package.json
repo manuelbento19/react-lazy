@@ -5,7 +5,7 @@
     "email": "manuelbentomb.223@hotmail.com"
   },
   "private": false,
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
