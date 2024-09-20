@@ -7,9 +7,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: "./src/index.tsx",
-      name: "react-lazy",
-      fileName: (format) => `index.${format}.js`,
-      formats: ["es","cjs"]
+      formats: ['es'],
     },
     rollupOptions: {
       external: ["react"],
@@ -18,7 +16,9 @@ export default defineConfig({
           react: "React"
         }
       }
-    }
+    },
+    sourcemap: false,
+    emptyOutDir: true
   },
   plugins: [
     react(),

@@ -1,10 +1,9 @@
-'use client'
 import React, { useRef } from 'react'
 import { useLazy } from '../hooks/useLazy'
 
 type LazyComponentProps = {
-    children: React.ReactNode
-    fallback: React.ReactNode
+  children: React.ReactNode
+  fallback: React.ReactNode
 }
 
 export default function LazyComponent({ fallback,children }: LazyComponentProps){
