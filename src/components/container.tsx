@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useLazy } from '../hooks/useLazy'
 
-type LazyComponentProps = {
+interface LazyComponentProps {
   children: React.ReactNode
   fallback: React.ReactNode
 }

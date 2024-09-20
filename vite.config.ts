@@ -1,12 +1,14 @@
+/// <reference types="vite/client" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts';
+import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
     lib: {
-      entry: "./src/index.tsx",
+      entry: resolve(__dirname, 'src/index.tsx'),
       formats: ['es'],
     },
     rollupOptions: {
@@ -14,7 +16,8 @@ export default defineConfig({
       output: {
         globals: {
           react: "React"
-        }
+        },
+        entryFileNames: '[name].js'
       }
     },
     sourcemap: false,
@@ -23,7 +26,8 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      insertTypesEntry: true
+      insertTypesEntry: true,
+      include: ["src/**/*.tsx"]
     })
   ],
 })

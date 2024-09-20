@@ -1,1 +1,1 @@
-export {LazyComponent} from './components';
+export * from './components';
