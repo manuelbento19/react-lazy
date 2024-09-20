@@ -12,7 +12,7 @@ export default function LazyComponent({ fallback,children }: LazyComponentProps)
 
   return (
     <div style={{width: "100%",height: "100%"}} ref={elementRef}>
-      {visible && !isPending ? fallback : children}
+      {visible && !isPending ? children : fallback}
     </div>
   )
 }
