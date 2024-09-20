@@ -1,7 +1,11 @@
 {
-  "name": "react-lazy",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@bentoo/react-lazy",
+  "author": {
+    "name": "Manuel Bento",
+    "email": "manuelbentomb.223@hotmail.com"
+  },
+  "private": false,
+  "version": "0.1.0",
   "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -12,6 +16,10 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manuelbento19/react-lazy.git"
   },
   "dependencies": {
     "react": "^18.3.1",
