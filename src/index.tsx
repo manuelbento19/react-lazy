@@ -1,0 +1,1 @@
+export {LazyComponent} from './components';
