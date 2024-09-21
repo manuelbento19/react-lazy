@@ -1,9 +1,9 @@
 
 # @bentoo/react-lazy
 
-A library designed to make it easier to implement Lazy Loading in React applications. It allows components to load only when they become visible on the screen, providing a way to monitor the entry of elements into the viewport.
+A library designed to make it easier to implement `Lazy Loading` in `React` applications. It allows components to load only when they become visible on the screen, providing a way to monitor the entry of elements into the viewport.
 
-With this tool, you can improve the performance of your application by reducing the initial loading time and ensuring that only the necessary elements are loaded. This approach contributes to a more agile and responsive user experience.
+With this tool, you can improve the performance of your application by reducing the initial loading time and ensuring that `only the necessary elements are loaded`. This approach contributes to a more agile and responsive user experience.
 
 ## Installation
 
