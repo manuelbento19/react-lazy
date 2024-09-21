@@ -1,28 +1,33 @@
 
 # @bentoo/react-lazy
 
-Uma biblioteca para facilitar o a implementação de Lazy Loading com React.
+A library designed to make it easier to implement Lazy Loading in React applications. It allows components to load only when they become visible on the screen, providing a way to monitor the entry of elements into the viewport.
 
-## Instalação
+With this tool, you can improve the performance of your application by reducing the initial loading time and ensuring that only the necessary elements are loaded. This approach contributes to a more agile and responsive user experience.
 
-Você pode instalar o pacote via NPM:
+## Installation
+
+You can install the package via NPM:
 
 ```bash
 npm install @bentoo/react-lazy
 ```
-ou via Yarn:
+
+or via Yarn:
 
 ```bash
 yarn add @bentoo/react-lazy
 ```
-ou via pnpm
+
+or via pnpm:
+
 ```bash
 pnpm add @bentoo/react-lazy
 ```
 
-## Uso
+## Usage
 
-Aqui está um exemplo básico de como usar o `@bentoo/react-lazy` em seu projeto:
+Here’s a basic example of how to use `@bentoo/react-lazy` in your project:
 
 ```tsx
 import React from 'react';
@@ -42,25 +47,25 @@ const App = () => {
 export default App;
 ```
 
-### Propriedades
+### Props
 
-`LazyComponent` aceita as seguintes propriedades:
+`LazyComponent` accepts the following props:
 
-| Propriedade | Tipo      | Descrição                     |
-|-------------|-----------|-------------------------------|
-| `fallback` |	`ReactNode` |	O conteúdo a ser exibido enquanto o componente está sendo carregado.|
-|children	| `ReactNode`	| O conteúdo que será exibido após o carregamento.|
+| Prop        | Type        | Description                                                       |
+|-------------|-------------|-------------------------------------------------------------------|
+| `fallback`  | `ReactNode` | The content to display while the component is being loaded.       |
+| `children`  | `ReactNode` | The content that will be displayed after loading.                 |
 
-## Contribuição
+## Contribution
 
-Se você deseja contribuir, fique à vontade para abrir um pull request ou reportar um problema. 
+If you would like to contribute, feel free to open a pull request or report an issue.
 
-1. Faça um fork do projeto.
-2. Crie sua feature branch (`git checkout -b minha-nova-funcionalidade`).
-3. Commit suas mudanças (`git commit -m 'Adicionando nova funcionalidade'`).
-4. Faça um push para a branch (`git push origin minha-nova-funcionalidade`).
-5. Abra um Pull Request.
+1. Fork the project.
+2. Create your feature branch (`git checkout -b my-new-feature`).
+3. Commit your changes (`git commit -m 'Adding new feature'`).
+4. Push to the branch (`git push origin my-new-feature`).
+5. Open a Pull Request.
 
-## Licença
+## License
 
-Este projeto está licenciado sob a MIT License. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
