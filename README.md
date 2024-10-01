@@ -5,6 +5,9 @@ A library designed to make it easier to implement `Lazy Loading` in `React` appl
 
 With this tool, you can improve the performance of your application by reducing the initial loading time and ensuring that `only the necessary elements are loaded`. This approach contributes to a more agile and responsive user experience.
 
+[![Version](https://img.shields.io/npm/v/@bentoo/react-lazy?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/@bentoo/react-lazy)
+[![Downloads](https://img.shields.io/npm/dt/@bentoo/react-lazy.svg?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/@bentoo/react-lazy)
+
 ## Installation
 
 You can install the package via NPM:
