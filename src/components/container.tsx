@@ -1,18 +1,28 @@
-import React, { useRef } from 'react'
-import { useLazy } from '../hooks/useLazy'
+import React from 'react'
+import {LazyProps, useLazy} from '../hooks/useLazy'
 
-interface LazyComponentProps {
-  children: React.ReactNode
-  fallback: React.ReactNode
+type LazyComponentProps = LazyProps & {
+    children: React.ReactNode
+    fallback?: React.ReactNode
+    className?: string
+    style?: React.CSSProperties
 }
 
-export default function LazyComponent({ fallback,children }: LazyComponentProps){
-  const elementRef = useRef<HTMLImageElement | null>(null)
-  const { visible, isPending } = useLazy({ elementRef })
+export default function LazyComponent({
+  children,
+  fallback = null,
+  className,
+  style,
+  root,
+  rootMargin,
+  threshold,
+  triggerOnce
+}: LazyComponentProps) {
+    const { ref, visible } = useLazy<HTMLDivElement>({ root, rootMargin, threshold, triggerOnce })
 
-  return (
-    <div style={{width: "100%",height: "100%"}} ref={elementRef}>
-      {visible && !isPending ? children : fallback}
-    </div>
-  )
+    return (
+        <div ref={ref} className={className} style={style}>
+            {visible ? children : fallback}
+        </div>
+    )
 }

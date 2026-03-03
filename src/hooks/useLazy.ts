@@ -1,37 +1,41 @@
-import { MutableRefObject, useEffect, useState, useTransition } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-type LazyProps = {
-  elementRef: MutableRefObject<Element | null>
+export type LazyProps = {
+    root?: Element | null
+    rootMargin?: string
+    threshold?: number | number[]
+    triggerOnce?: boolean
 }
 
-export const useLazy = ({ elementRef }: LazyProps) => {
-  const [visible, setVisibe] = useState(false)
-  const [isPending, startTransition] = useTransition()
+export const useLazy =  <T extends HTMLElement>({
+    root = null,
+    rootMargin = '0px',
+    threshold = 0.1,
+    triggerOnce = true
+}: LazyProps) => {
+    const ref = useRef<T | null>(null)
+    const [visible, setVisible] = useState(false)
 
-  useEffect(() => {
-    const currentRef = elementRef.current
+    useEffect(() => {
+        const element = ref.current
+        if (!element) return;
 
-    const observer = new IntersectionObserver((observers) => {
-      const myImage = observers[0]
-      if (myImage.isIntersecting) {
-        startTransition(() => setVisibe(true))
-        if (currentRef) observer.unobserve(currentRef)
-      }
-    })
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                setVisible(true)
+                if (triggerOnce) observer.unobserve(entry.target)
+            } else if (!triggerOnce) {
+                setVisible(false)
+            }
+        }, { root, rootMargin, threshold })
 
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-    return () => {
-      if (currentRef) {
-        observer.observe(currentRef)
-      }
-      observer.disconnect()
-    }
-  }, [])
+        observer.observe(element);
 
-  return {
-    visible,
-    isPending
-  }
+        return () => {
+            observer.unobserve(element)
+            observer.disconnect()
+        }
+    }, [root, rootMargin, threshold, triggerOnce])
+
+    return { ref, visible }
 }
