@@ -8,7 +8,7 @@ type LazyComponentProps = LazyProps & {
     style?: React.CSSProperties
 }
 
-export default function LazyComponent({
+export function LazyComponent({
   children,
   fallback = null,
   className,

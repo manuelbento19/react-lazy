@@ -1,1 +1,2 @@
-export {default as LazyComponent} from './container';
+export { LazyComponent } from './container';
+export {LazySuspense} from './suspense';
