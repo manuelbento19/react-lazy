@@ -1,74 +1,154 @@
-
 # @bentoo/react-lazy
 
-A library designed to make it easier to implement `Lazy Loading` in `React` applications. It allows components to load only when they become visible on the screen, providing a way to monitor the entry of elements into the viewport.
+A lightweight and flexible **React lazy loading library**.  
+Load components or images **only when they enter the viewport**, improving performance, reducing initial bundle size, and providing optional callbacks when elements become visible.
 
-With this tool, you can improve the performance of your application by reducing the initial loading time and ensuring that `only the necessary elements are loaded`. This approach contributes to a more agile and responsive user experience.
+[![Version](https://img.shields.io/npm/v/@bentoo/react-lazy?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/@bentoo/react-lazy)  
+[![Downloads](https://img.shields.io/npm/dt/@bentoo/react-lazy.svg?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/@bentoo/react-lazy)  
+[![License](https://img.shields.io/npm/l/@bentoo/react-lazy.svg?style=flat&colorA=000000&colorB=000000)](LICENSE)
 
-[![Version](https://img.shields.io/npm/v/@bentoo/react-lazy?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/@bentoo/react-lazy)
-[![Downloads](https://img.shields.io/npm/dt/@bentoo/react-lazy.svg?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/@bentoo/react-lazy)
+---
+
+## Features
+
+- Lazy load **any component or element** in React.  
+- Optional **fallback content** while loading.  
+- Callback support when an element becomes visible.  
+- Works with **Next.js**, **React 18**, and **TypeScript**.  
+- Lightweight, fully typed, and tree-shakable.  
+
+---
 
 ## Installation
 
-You can install the package via NPM:
-
 ```bash
 npm install @bentoo/react-lazy
-```
-
-or via Yarn:
-
-```bash
+# or
 yarn add @bentoo/react-lazy
-```
-
-or via pnpm:
-
-```bash
+# or
 pnpm add @bentoo/react-lazy
-```
+````
+
+---
 
 ## Usage
 
-Here’s a basic example of how to use `@bentoo/react-lazy` in your project:
+### 1. LazyComponent
+
+Lazy load any React component with a fallback:
 
 ```tsx
 import React from 'react';
 import { LazyComponent } from '@bentoo/react-lazy';
 
-const App = () => {
+export default function App() {
   return (
     <div>
-      <h1>My image</h1>
-        <LazyComponent fallback={<h1>Loading...</h1>}>
-          <img src='/myPicture.png' alt='MyPicture'/>
-        </LazyComponent>
+      <h1>My content</h1>
+      <LazyComponent fallback={<h2>Loading...</h2>}>
+        <img src="/myPicture.png" alt="MyPicture" />
+      </LazyComponent>
     </div>
   );
-};
-
-export default App;
+}
 ```
 
-### Props
+**Props**:
 
-`LazyComponent` accepts the following props:
+| Prop       | Type        | Description                         |
+| ---------- | ----------- | ----------------------------------- |
+| `children` | `ReactNode` | Content to display after lazy load. |
+| `fallback` | `ReactNode` | Content displayed while loading.    |
 
-| Prop        | Type        | Description                                                       |
-|-------------|-------------|-------------------------------------------------------------------|
-| `fallback`  | `ReactNode` | The content to display while the component is being loaded.       |
-| `children`  | `ReactNode` | The content that will be displayed after loading.                 |
+---
+
+### 2. LazyImage
+
+Lazy load images with optional **placeholder, blur, fade-in, and Next.js support**:
+
+```tsx
+import { LazyImage } from '@bentoo/react-lazy';
+// For Next.js, pass ImageComponent={NextImage}
+
+<LazyImage
+  src="/photo.jpg"
+  alt="My Photo"
+  width={600}
+  height={400}
+  placeholder="/photo-low.jpg"
+  blur
+/>
+```
+
+**Props**:
+
+| Prop             | Type              | Description                             |
+| ---------------- | ----------------- | --------------------------------------- |
+| `src`            | `string`          | Image source                            |
+| `alt`            | `string`          | Image alt text                          |
+| `width`/`height` | `number`          | Optional width/height                   |
+| `placeholder`    | `string`          | Low-res placeholder for blur effect     |
+| `blur`           | `boolean`         | Apply blur to placeholder               |
+| `ImageComponent` | `React Component` | Optional (pass `next/image` in Next.js) |
+
+---
+
+### 3. Lazy with Callback
+
+Trigger a function when an element enters the viewport:
+
+```tsx
+import { useLazyCallback } from '@bentoo/react-lazy';
+
+export default function Section() {
+  const { ref } = useLazyCallback({
+    onVisible: () => console.log('Element is now visible!'),
+    triggerOnce: true
+  });
+
+  return <div ref={ref}>Watch me appear!</div>;
+}
+```
+
+---
+
+## Next.js Example
+
+```tsx
+import Image from 'next/image';
+import { LazyImage } from '@bentoo/react-lazy';
+
+export default function NextApp() {
+  return (
+    <LazyImage
+      ImageComponent={Image}
+      src="/photo.jpg"
+      alt="Next.js Image"
+      width={600}
+      height={400}
+      placeholder="/photo-low.jpg"
+      blur
+    />
+  );
+}
+```
+
+> Note: `next/image` already supports lazy loading, but `LazyImage` adds viewport-triggered effects and callbacks.
+
+---
 
 ## Contribution
 
-If you would like to contribute, feel free to open a pull request or report an issue.
+We welcome contributions!
 
-1. Fork the project.
-2. Create your feature branch (`git checkout -b my-new-feature`).
-3. Commit your changes (`git commit -m 'Adding new feature'`).
-4. Push to the branch (`git push origin my-new-feature`).
-5. Open a Pull Request.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b my-feature`)
+3. Commit your changes (`git commit -m 'Add feature'`)
+4. Push to the branch (`git push origin my-feature`)
+5. Open a Pull Request
+
+---
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+MIT License – see the [LICENSE](LICENSE) file for details.

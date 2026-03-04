@@ -1,28 +1,34 @@
-import React from 'react'
+import React, {ElementType} from 'react'
 import { useLazy } from '../hooks'
 import {useImage} from "../hooks/useImage";
 
-interface LazyImageProps
-    extends React.ImgHTMLAttributes<HTMLImageElement> {
-    src: string;
+type LazyImageProps = {
+    src: string
+    alt: string
     placeholder?: string
     blur?: boolean
+    width?: number
+    height?: number
+    ImageComponent?: ElementType
     fadeInDuration?: number
-}
+} & Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src" | "alt">
 
 export function LazyImage({
-      src,
-      alt,
-      placeholder,
-      blur = false,
-      fadeInDuration = 300,
-      width,
-      height,
-      style,
-      ...rest
-  }: LazyImageProps) {
+  src,
+  alt,
+  placeholder,
+  blur = false,
+  fadeInDuration = 300,
+  width,
+  height,
+  style,
+  ImageComponent = "img",
+  ...rest
+}: LazyImageProps) {
     const { ref, visible } = useLazy<HTMLImageElement>({})
     const { loaded, handleLoad, shouldLoad } = useImage({src, visible})
+
+    const isNextImage = ImageComponent !== "img"
 
     return (
         <div style={{
@@ -47,25 +53,41 @@ export function LazyImage({
                     }}
                 />
             )}
-            <img
-                ref={ref}
-                src={shouldLoad ? src : undefined}
-                alt={alt}
-                loading="lazy"
-                width={width}
-                height={height}
-                onLoad={handleLoad}
-                style={{
-                    opacity: loaded ? 1 : 0,
-                    transition: `opacity ${fadeInDuration}ms ease`,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    display: 'block',
-                    ...style
-                }}
-                {...rest}
-            />
+            {isNextImage ? (
+                <ImageComponent
+                    src={shouldLoad ? src : ""}
+                    alt={alt}
+                    width={width}
+                    height={height}
+                    onLoad={handleLoad}
+                    style={{
+                        opacity: loaded ? 1 : 0,
+                        transition: `opacity ${fadeInDuration}ms ease`,
+                        ...style
+                    }}
+                    {...rest}
+                />
+            ) : (
+                <img
+                    ref={ref}
+                    src={shouldLoad ? src : undefined}
+                    alt={alt}
+                    loading="lazy"
+                    width={width}
+                    height={height}
+                    onLoad={handleLoad}
+                    style={{
+                        opacity: loaded ? 1 : 0,
+                        transition: `opacity ${fadeInDuration}ms ease`,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                        ...style
+                    }}
+                    {...rest}
+                />
+            )}
         </div>
     )
 }
