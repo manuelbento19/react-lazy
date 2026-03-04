@@ -1,24 +1,25 @@
 {
   "name": "@bentoo/react-lazy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "exports": {
     ".": {
       "import": "./dist/index.esm.js",
       "require": "./dist/index.cjs.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build:ts": "tsc --emitDeclarationOnly",
     "build:esm": "vite build --config vite.config.ts",
     "build": "npm run build:ts && npm run build:esm",
+    "link": "npm link",
     "lint": "eslint . --ext .ts,.tsx",
     "publish:one": "npm run build && npm publish --access public",
     "publish:confirm": "npm run build && node scripts/publish.js"
