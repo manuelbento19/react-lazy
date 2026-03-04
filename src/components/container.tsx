@@ -1,5 +1,5 @@
 import React from 'react'
-import {LazyProps, useLazy} from '../hooks/useLazy'
+import {LazyProps, useLazy} from '../hooks'
 
 type LazyComponentProps = LazyProps & {
     children: React.ReactNode

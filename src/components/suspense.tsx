@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { useLazy } from '../hooks/useLazy'
+import { useLazy } from '../hooks'
 
 type LazySuspenseProps = {
     children: React.ReactNode

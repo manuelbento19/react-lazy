@@ -1,53 +1,63 @@
 {
-  "name": "@bentoo/react-lazy",
-  "author": {
-    "name": "Manuel Bento",
-    "email": "manuelbentomb.223@hotmail.com"
-  },
+  "name": "react-lazy",
+  "version": "1.0.0",
   "private": false,
-  "version": "0.2.2",
   "type": "module",
-  "module": "./dist/index.js",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "/dist"
+    "dist"
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js",
       "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
-    "build": "tsc && vite build",
-    "lint": "eslint ."
+    "build:ts": "tsc --emitDeclarationOnly",
+    "build:esm": "vite build --config vite.config.ts",
+    "build": "npm run build:ts && npm run build:esm",
+    "lint": "eslint . --ext .ts,.tsx"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/manuelbento19/react-lazy.git"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "vite-plugin-dts": "^4.2.1"
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "@types/node": "^22.5.5",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^9.9.0",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.9",
-    "globals": "^15.9.0",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "@types/node": "^25.3.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "@vitejs/plugin-react": "^5.1.4",
+    "eslint": "^10.0.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4"
   },
   "keywords": [
-    "react","nextjs",
-    "lazy-loading","react-lazy","react-lazy-load"
-  ]
+    "react",
+    "nextjs",
+    "lazy-loading",
+    "react-lazy",
+    "react-lazy-load"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuelbento19/react-lazy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/manuelbento19/react-lazy/issues"
+  },
+  "homepage": "https://github.com/manuelbento19/react-lazy#readme",
+  "author": {
+    "name": "Manuel Bento",
+    "email": "manuelbentomb.223@hotmail.com"
+  },
+  "license": "MIT",
+  "sideEffects": false
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLazy } from '../hooks/useLazy'
+import { useLazy } from '../hooks'
 import {useImage} from "../hooks/useImage";
 
 interface LazyImageProps
