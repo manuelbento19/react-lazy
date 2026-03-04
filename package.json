@@ -1,5 +1,5 @@
 {
-  "name": "react-lazy",
+  "name": "@bentoo/react-lazy",
   "version": "1.0.0",
   "private": false,
   "type": "module",
@@ -12,15 +12,16 @@
   "exports": {
     ".": {
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs.js"
     }
   },
   "scripts": {
     "build:ts": "tsc --emitDeclarationOnly",
     "build:esm": "vite build --config vite.config.ts",
     "build": "npm run build:ts && npm run build:esm",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "publish:one": "npm run build && npm publish --access public",
+    "publish:confirm": "npm run build && node scripts/publish.js"
   },
   "peerDependencies": {
     "react": ">=18",
