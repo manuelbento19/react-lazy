@@ -10,12 +10,9 @@ export default defineConfig({
                 url: "http://localhost",
             },
         },
-        pool: "vmThreads",
-        poolOptions: {
-            vmThreads: {
-                singleThread: true,
-            },
-        },
+        pool: "forks",
+        maxWorkers: 1,
+        minWorkers: 1,
         setupFiles: ["./test/setup.ts"],
         include: ["test/**/*.test.{ts,tsx}"]
     }
