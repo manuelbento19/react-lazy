@@ -22,7 +22,9 @@
     "lint": "eslint . --ext .ts,.tsx",
     "link": "npm link",
     "publish:one": "npm run build && npm publish --access public",
-    "publish:confirm": "npm run build && node scripts/publish.js"
+    "publish:confirm": "npm run build && node scripts/publish.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -30,6 +32,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^25.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -38,10 +42,12 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.13.0",
+    "jsdom": "^30.1.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.71.0",
     "vite": "^7.3.1",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^5.0.3"
   },
   "keywords": [
     "react",
