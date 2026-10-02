@@ -10,6 +10,12 @@ export default defineConfig({
                 url: "http://localhost",
             },
         },
+        pool: "threads",
+        poolOptions: {
+            threads: {
+                singleThread: true,
+            },
+        },
         setupFiles: ["./test/setup.ts"],
         include: ["test/**/*.test.{ts,tsx}"]
     }
