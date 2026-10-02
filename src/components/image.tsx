@@ -1,4 +1,4 @@
-import React, {ElementType} from 'react'
+import React, {ElementType, SyntheticEvent} from 'react'
 import { useLazy } from '../hooks'
 import {useImage} from "../hooks/useImage";
 
@@ -23,20 +23,37 @@ export function LazyImage({
   height,
   style,
   ImageComponent = "img",
+  onLoad,
+  onError,
   ...rest
 }: LazyImageProps) {
-    const { ref, visible } = useLazy<HTMLImageElement>({})
-    const { loaded, handleLoad, shouldLoad } = useImage({src, visible})
+    const { ref, visible } = useLazy<HTMLDivElement>({})
+    const { loaded, error, handleLoad, handleError, shouldLoad } = useImage({src, visible})
+
+    const settled = loaded || error
+
+    function handleLoadEvent(event: SyntheticEvent<HTMLImageElement, Event>) {
+        handleLoad()
+        onLoad?.(event)
+    }
+
+    function handleErrorEvent(event: SyntheticEvent<HTMLImageElement, Event>) {
+        handleError()
+        onError?.(event)
+    }
 
     const isNextImage = ImageComponent !== "img"
 
     return (
-        <div style={{
-            position: 'relative',
-            overflow: 'hidden',
-            width,
-            height
-        }}>
+        <div
+            ref={ref}
+            style={{
+                position: 'relative',
+                overflow: 'hidden',
+                width,
+                height
+            }}
+        >
             {placeholder && !loaded && (
                 <img
                     src={placeholder}
@@ -55,29 +72,31 @@ export function LazyImage({
             )}
             {isNextImage ? (
                 <ImageComponent
+                    {...rest}
                     src={shouldLoad ? src : ""}
                     alt={alt}
                     width={width}
                     height={height}
-                    onLoad={handleLoad}
+                    onLoad={handleLoadEvent}
+                    onError={handleErrorEvent}
                     style={{
-                        opacity: loaded ? 1 : 0,
+                        opacity: settled ? 1 : 0,
                         transition: `opacity ${fadeInDuration}ms ease`,
                         ...style
                     }}
-                    {...rest}
                 />
             ) : (
                 <img
-                    ref={ref}
+                    {...rest}
                     src={shouldLoad ? src : undefined}
                     alt={alt}
                     loading="lazy"
                     width={width}
                     height={height}
-                    onLoad={handleLoad}
+                    onLoad={handleLoadEvent}
+                    onError={handleErrorEvent}
                     style={{
-                        opacity: loaded ? 1 : 0,
+                        opacity: settled ? 1 : 0,
                         transition: `opacity ${fadeInDuration}ms ease`,
                         width: "100%",
                         height: "100%",
@@ -85,7 +104,6 @@ export function LazyImage({
                         display: "block",
                         ...style
                     }}
-                    {...rest}
                 />
             )}
         </div>

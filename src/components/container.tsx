@@ -1,7 +1,8 @@
 import React from 'react'
-import {LazyProps, useLazy} from '../hooks'
+import { useLazy } from '../hooks'
+import { UseLazyProps } from '../types'
 
-type LazyComponentProps = LazyProps & {
+type LazyComponentProps = UseLazyProps & {
     children: React.ReactNode
     fallback?: React.ReactNode
     className?: string

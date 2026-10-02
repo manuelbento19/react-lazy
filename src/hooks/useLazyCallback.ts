@@ -1,41 +1,26 @@
 import { useEffect, useRef } from "react"
-import {LazyProps} from "./useLazy";
-
-export type LazyCallbackProps = LazyProps &{
-    onVisible: () => void
-}
+import { useIntersection } from "./useIntersection";
+import { LazyCallbackProps } from "../types";
 
 export const useLazyCallback = <T extends HTMLElement>({
     onVisible,
-    root = null,
-    rootMargin = "0px",
-    threshold = 0.1,
-    triggerOnce = true
+    root,
+    rootMargin,
+    threshold,
+    triggerOnce
 }: LazyCallbackProps) => {
-    const elementRef = useRef<T | null>(null)
-    const hasTriggeredRef = useRef(false)
-
+    const onVisibleRef = useRef(onVisible)
     useEffect(() => {
-        const element = elementRef.current
-        if (!element) return
+        onVisibleRef.current = onVisible
+    })
 
-        const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) {
-                if (!hasTriggeredRef.current || !triggerOnce) {
-                    onVisible()
-                    hasTriggeredRef.current = true
-                }
-                if (triggerOnce) observer.unobserve(entry.target)
-            }
-        }, { root, rootMargin, threshold })
+    const { ref } = useIntersection<T>({
+        root,
+        rootMargin,
+        threshold,
+        triggerOnce,
+        onIntersect: () => onVisibleRef.current()
+    })
 
-        observer.observe(element)
-
-        return () => {
-            observer.unobserve(element)
-            observer.disconnect()
-        }
-    }, [onVisible, root, rootMargin, threshold, triggerOnce])
-
-    return { ref: elementRef }
+    return { ref }
 }
