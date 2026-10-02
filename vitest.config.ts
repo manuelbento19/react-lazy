@@ -10,9 +10,9 @@ export default defineConfig({
                 url: "http://localhost",
             },
         },
-        pool: "threads",
+        pool: "vmThreads",
         poolOptions: {
-            threads: {
+            vmThreads: {
                 singleThread: true,
             },
         },
