@@ -112,6 +112,38 @@ export default function Section() {
 
 ---
 
+### 4. LazySentinel (Infinite Scroll)
+
+Trigger loading when scrolling to the end of a list:
+
+```tsx
+import { LazySentinel } from '@bentoo/react-lazy';
+
+export default function InfiniteList() {
+  const [items, setItems] = useState(Array.from({ length: 20 }, (_, i) => i));
+  const [loading, setLoading] = useState(false);
+
+  async function loadMore() {
+    if (loading) return;
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 500));
+    setItems((prev) => [...prev, ...Array.from({ length: 20 }, (_, i) => prev.length + i)]);
+    setLoading(false);
+  }
+
+  return (
+    <div>
+      {items.map((i) => <div key={i}>Item {i}</div>)}
+      <LazySentinel onVisible={loadMore} />
+      {loading && <div>Loading...</div>}
+    </div>
+  );
+}
+```
+
+> Works with or without virtualization libraries (e.g., TanStack Virtual).
+
+
 ## Next.js Example
 
 ```tsx
