@@ -25,9 +25,12 @@ export default defineConfig({
     ],
     build: {
         lib: {
-            entry: path.resolve(__dirname, "src/index.ts"),
+            entry: {
+                index: path.resolve(__dirname, "src/index.ts"),
+                virtual: path.resolve(__dirname, "src/virtual/index.ts")
+            },
             formats: ["es", "cjs"],
-            fileName: (format) => (format === "cjs" ? "index.cjs" : "index.js")
+            fileName: (format, entryName) => (format === "cjs" ? `${entryName}.cjs` : `${entryName}.js`)
         },
         rollupOptions: {
             external,
