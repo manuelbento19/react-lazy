@@ -1,7 +1,7 @@
 import { useIntersection } from './useIntersection'
 import { UseLazyProps } from '../types'
 
-export const useLazy = <T extends HTMLElement>({
+export const useLazy = <T extends HTMLElement = HTMLDivElement>({
     root,
     rootMargin,
     threshold,

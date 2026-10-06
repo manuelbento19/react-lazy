@@ -8,15 +8,17 @@ All notable changes to this project will be documented in this file.
 - `/virtual` namespace with `useVirtualizer` (fixed-size vertical/horizontal, overscan, scrollToIndex) and `VirtualList` component
 - Separate entrypoint exports (`./virtual`) with proper ESM/CJS/types
 - Documentation for virtual namespace and comparison vs TanStack Virtual
+- Document `LazySuspense`, `useLazy` and `LazySentinel` props; add README regression test (fence balance, self-contained examples, export coverage)
 
 ### Changed
-- README: expanded props tables for `LazyImage` and `LazyComponent`
+- README: expanded props tables; removed `root`/`rootMargin`/`threshold`/`triggerOnce` from the `LazyImage` table (not supported by that component) and added `fadeInDuration`
 - package.json: added keywords (`virtualization`, `infinite-scroll`, `intersection-observer`, `sentinel`, `virtual-list`)
 
 ### Fixed
 - `VirtualList` now wires its own scroll container instead of requiring an external `getScrollElement`
 - `exports["./virtual"]` pointed at non-existent paths (`dist/virtual/index.js`); the build now emits them, so `import from '@bentoo/react-lazy/virtual'` resolves
 - `useVirtualizer` uses an isomorphic layout effect, removing `useLayoutEffect` SSR warnings on React 18
+- `useLazy`/`useLazyCallback`/`useIntersection` default their element generic to `HTMLDivElement`, so the returned `ref` is assignable to `<div ref={...}>` without an explicit type argument
 
 ## [1.1.0] - 2026-10-06
 

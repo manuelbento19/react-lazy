@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { IntersectionOptions } from '../types'
 
-export function useIntersection<T extends HTMLElement>({
+export function useIntersection<T extends HTMLElement = HTMLDivElement>({
     root = null,
     rootMargin = '0px',
     threshold = 0.1,
