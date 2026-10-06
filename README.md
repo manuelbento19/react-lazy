@@ -22,8 +22,8 @@ Load components or images **only when they enter the viewport**, improving perfo
 ## When to use vs TanStack Virtual
 
 - **Use `@bentoo/react-lazy` (core)** for simple viewport-based lazy loading (components, images, infinite scroll with `LazySentinel`). It's minimal, SSR-safe, and works great with Next.js.
-- **Use `@bentoo/react-lazy/virtual`** for fixed-size lists where rendering thousands of DOM nodes hurts performance. It's a lightweight subset (vertical/horizontal, `overscan`, `scrollToIndex`) without the overhead of a full virtualizer API.
-- **Use [TanStack Virtual](https://tanstack.com/virtual)** if you need dynamic/variable sizes with measurement, grid layouts, window scrolling edge cases, or advanced APIs. `@bentoo/react-lazy/virtual` intentionally keeps scope small to avoid bloat.  
+- **Use `@bentoo/react-lazy/virtual`** for **uniform row heights** where rendering thousands of DOM nodes hurts performance. It's a lightweight subset (vertical/horizontal, `overscan`, `scrollToIndex`) without the overhead of a full virtualizer API. Rows must all share one `itemSize` — there is no measurement.
+- **Use [TanStack Virtual](https://tanstack.com/virtual)** if your rows have **uneven or measured heights**, grid layouts, window scrolling edge cases, or advanced APIs. `@bentoo/react-lazy/virtual` intentionally keeps scope small to avoid bloat.  
 
 ---
 
@@ -296,8 +296,7 @@ function App() {
 | ------------- | ------------------------------------------- | -------------------------------------------- |
 | `items`       | `T[]`                                       | Data to render                               |
 | `renderItem`  | `(item, index, virtual) => ReactNode`       | Renders a single row                         |
-| `itemSize`    | `number`                                    | Fixed row size in px                         |
-| `estimateSize`| `(index) => number`                         | Optional, used when `itemSize` is omitted    |
+| `itemSize`    | `number`                                    | Fixed row size in px, defaults to `40`. Rows must all share this height. |
 | `overscan`    | `number`                                    | Extra rows rendered outside the viewport     |
 | `horizontal`  | `boolean`                                   | Lay out rows horizontally (default `false`)  |
 | `className`   | `string`                                    | Class for the scroll container               |
