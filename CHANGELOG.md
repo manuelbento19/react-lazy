@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2026-10-06
+
+### Fixed
+- README infinite scroll example passed `LazySentinel` with its default `triggerOnce: true`, so `useIntersection` unobserved the element after the first intersection and the list stopped after one page. The example now uses `triggerOnce={false}` with a re-entrancy guard while a request is in flight and an end-of-list guard that stops rendering the sentinel.
+- README: documented that `LazySentinel` hides its own children (`height: 0`, `visibility: hidden`, `pointer-events: none`), so status text belongs as a sibling rather than as children.
+- `CHANGELOG` 1.2.0 entry now marks `useIntersection` as internal — it is not exported by the package.
+
 ## [1.3.0] - 2026-10-06
 
 ### Changed (breaking)
