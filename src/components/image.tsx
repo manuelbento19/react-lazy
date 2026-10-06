@@ -71,20 +71,27 @@ export function LazyImage({
                 />
             )}
             {isNextImage ? (
-                <ImageComponent
-                    {...rest}
-                    src={shouldLoad ? src : ""}
-                    alt={alt}
-                    width={width}
-                    height={height}
-                    onLoad={handleLoadEvent}
-                    onError={handleErrorEvent}
-                    style={{
-                        opacity: settled ? 1 : 0,
-                        transition: `opacity ${fadeInDuration}ms ease`,
-                        ...style
-                    }}
-                />
+                // `next/image` warns on an empty `src` and can re-download the
+                // current page, so a custom image component is mounted only once
+                // the image is allowed to load, or once the preload failed (so the
+                // browser can surface its own broken-image state). The wrapper
+                // already reserves width/height, so this causes no layout shift.
+                (shouldLoad || error) && (
+                    <ImageComponent
+                        {...rest}
+                        src={src}
+                        alt={alt}
+                        width={width}
+                        height={height}
+                        onLoad={handleLoadEvent}
+                        onError={handleErrorEvent}
+                        style={{
+                            opacity: settled ? 1 : 0,
+                            transition: `opacity ${fadeInDuration}ms ease`,
+                            ...style
+                        }}
+                    />
+                )
             ) : (
                 <img
                     {...rest}
