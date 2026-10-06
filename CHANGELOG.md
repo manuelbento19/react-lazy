@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-10-06
+
+### Changed (breaking)
+- Removed `estimateSize` from `useVirtualizer` and `VirtualList`. `/virtual` is now explicitly **fixed-size only**: rows must share one `itemSize` (default `40`).
+
+  The option never worked. `start` was computed as `index * estimateSize(index)` — the item's own size used as a multiplier — while `totalSize` summed sizes cumulatively, so with a varying `estimateSize` the two disagreed and item positions were not even monotonically increasing (e.g. sizes `100, 50, 200` put index 2 at `400px` and index 3 back at `150px`, overlapping and out of order). No test exercised it and nothing shipped correct, so the option is removed rather than reimplemented.
+
+  Passing `estimateSize` now produces a TypeScript excess-property error. For uneven or measured row heights use [TanStack Virtual](https://tanstack.com/virtual) — deliberately out of scope here.
+
+### Added
+- Regression tests locking the fixed-size contract: strictly monotonic and non-overlapping positions, `totalSize` agreeing with the last item's `end`, windowing by `scrollOffset`, and `itemSize` defaulting to `40`.
+
 ## [1.2.1] - 2026-10-06
 
 ### Fixed
