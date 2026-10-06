@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2026-10-06
+
+### Fixed
+- `useVirtualizer` now guards `ResizeObserver`. In 1.2.0 `VirtualList` threw `ReferenceError: ResizeObserver is not defined` on mount in environments without it — notably jsdom, so any consumer testing components under Jest/jsdom hit a crash. It now falls back to a single measurement, matching how `useIntersection` already degrades without `IntersectionObserver`.
+
 ## [1.2.0] - 2026-10-06
 
 ### Added

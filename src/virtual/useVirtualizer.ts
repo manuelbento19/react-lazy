@@ -116,8 +116,14 @@ export function useVirtualizer({
         handleResize()
 
         el.addEventListener('scroll', handleScroll, { passive: true })
-        resizeObserverRef.current = new ResizeObserver(handleResize)
-        resizeObserverRef.current.observe(el)
+
+        // Mirror the core hooks: environments without ResizeObserver (older
+        // browsers, jsdom in consumer test suites) fall back to a single
+        // measurement instead of throwing while mounting.
+        if (typeof ResizeObserver !== 'undefined') {
+            resizeObserverRef.current = new ResizeObserver(handleResize)
+            resizeObserverRef.current.observe(el)
+        }
 
         return () => {
             el.removeEventListener('scroll', handleScroll)
