@@ -1,4 +1,4 @@
-import { act, render, renderHook } from "@testing-library/react"
+import { renderHook } from "@testing-library/react"
 import { afterEach, describe, expect, it } from "vitest"
 import { useVirtualizer } from "../src/virtual"
 import { IntersectionObserverMock } from "./setup"

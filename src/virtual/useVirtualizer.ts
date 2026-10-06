@@ -10,8 +10,10 @@ export type VirtualItem = {
 
 export type UseVirtualizerOptions = {
     count: number
-    getScrollElement: () => HTMLElement | null
-    estimateSize: (index: number) => number
+    getScrollElement?: () => HTMLElement | null
+    scrollElement?: HTMLElement | null
+    ref?: { current: HTMLElement | null } | null
+    estimateSize?: (index: number) => number
     itemSize?: number
     overscan?: number
     horizontal?: boolean
@@ -27,7 +29,9 @@ export type ScrollToIndexOptions = {
 export function useVirtualizer({
     count,
     getScrollElement,
-    estimateSize,
+    scrollElement = null,
+    ref = null,
+    estimateSize = () => 40,
     itemSize,
     overscan = 2,
     horizontal = false,
@@ -90,7 +94,7 @@ export function useVirtualizer({
     }, [count, itemSize, getSize, paddingStart, paddingEnd])
 
     useLayoutEffect(() => {
-        const el = getScrollElement()
+        const el = getScrollElement?.() || scrollElement || ref?.current
         if (!el) return
 
         scrollElementRef.current = el
@@ -114,7 +118,7 @@ export function useVirtualizer({
             el.removeEventListener('scroll', handleScroll)
             resizeObserverRef.current?.disconnect()
         }
-    }, [getScrollElement, horizontal])
+    }, [getScrollElement, scrollElement, ref, horizontal])
 
     const scrollToIndex = useCallback(
         (index: number, options: ScrollToIndexOptions = {}) => {
