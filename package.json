@@ -56,10 +56,15 @@
   },
   "keywords": [
     "react",
-    "nextjs",
     "lazy-loading",
-    "react-lazy",
-    "react-lazy-load"
+    "intersection-observer",
+    "image-lazy-load",
+    "nextjs",
+    "typescript",
+    "virtualization",
+    "infinite-scroll",
+    "sentinel",
+    "virtual-list"
   ],
   "repository": {
     "type": "git",

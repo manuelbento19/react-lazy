@@ -15,7 +15,15 @@ Load components or images **only when they enter the viewport**, improving perfo
 - Optional **fallback content** while loading.  
 - Callback support when an element becomes visible.  
 - Works with **Next.js**, **React 18**, and **TypeScript**.  
-- Lightweight, fully typed, and tree-shakable.  
+- Lightweight, fully typed, and tree-shakable.
+
+---
+
+## When to use vs TanStack Virtual
+
+- **Use `@bentoo/react-lazy` (core)** for simple viewport-based lazy loading (components, images, infinite scroll with `LazySentinel`). It's minimal, SSR-safe, and works great with Next.js.
+- **Use `@bentoo/react-lazy/virtual`** for fixed-size lists where rendering thousands of DOM nodes hurts performance. It's a lightweight subset (vertical/horizontal, `overscan`, `scrollToIndex`) without the overhead of a full virtualizer API.
+- **Use [TanStack Virtual](https://tanstack.com/virtual)** if you need dynamic/variable sizes with measurement, grid layouts, window scrolling edge cases, or advanced APIs. `@bentoo/react-lazy/virtual` intentionally keeps scope small to avoid bloat.  
 
 ---
 
@@ -55,10 +63,16 @@ export default function App() {
 
 **Props**:
 
-| Prop       | Type        | Description                         |
-| ---------- | ----------- | ----------------------------------- |
-| `children` | `ReactNode` | Content to display after lazy load. |
-| `fallback` | `ReactNode` | Content displayed while loading.    |
+| Prop         | Type              | Description                         |
+| ------------ | ----------------- | ----------------------------------- |
+| `children`   | `ReactNode`       | Content to display after lazy load. |
+| `fallback`   | `ReactNode`       | Content displayed while loading.    |
+| `root`       | `Element \| null` | Scroll container for observer       |
+| `rootMargin` | `string`          | Root margin for observer           |
+| `threshold`  | `number \| number[]` | Visibility threshold            |
+| `triggerOnce`| `boolean`         | Load only once (default `true`)    |
+| `className`  | `string`          | Wrapper className                   |
+| `style`      | `React.CSSProperties` | Wrapper style               |
 
 ---
 
@@ -90,6 +104,10 @@ import { LazyImage } from '@bentoo/react-lazy';
 | `placeholder`    | `string`          | Low-res placeholder for blur effect     |
 | `blur`           | `boolean`         | Apply blur to placeholder               |
 | `ImageComponent` | `React Component` | Optional (pass `next/image` in Next.js) |
+| `root`           | `Element \| null` | Scroll container for observer           |
+| `rootMargin`     | `string`          | Root margin for observer               |
+| `threshold`      | `number \| number[]` | Visibility threshold              |
+| `triggerOnce`    | `boolean`         | Load only once (default `true`)        |
 
 ---
 
