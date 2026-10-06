@@ -143,6 +143,76 @@ export default function InfiniteList() {
 
 > Works with or without virtualization libraries (e.g., TanStack Virtual).
 
+---
+
+### 5. Virtualization (`/virtual`)
+
+Lightweight fixed-size virtualization. Import from the separate entrypoint to keep the core bundle small.
+
+#### `useVirtualizer`
+
+```tsx
+import { useVirtualizer } from '@bentoo/react-lazy/virtual';
+
+function VirtualList({ count = 1000 }) {
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  const virtualizer = useVirtualizer({
+    count,
+    getScrollElement: () => parentRef.current,
+    itemSize: 50,
+    overscan: 2,
+  });
+
+  return (
+    <div ref={parentRef} style={{ height: 400, overflow: 'auto' }}>
+      <div style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
+        {virtualizer.getVirtualItems().map((item) => (
+          <div
+            key={item.key}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: item.size,
+              transform: `translateY(${item.start}px)`,
+            }}
+          >
+            Item {item.index}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+#### `VirtualList` component
+
+```tsx
+import { VirtualList } from '@bentoo/react-lazy/virtual';
+
+function App() {
+  const items = Array.from({ length: 1000 }, (_, i) => `Item ${i}`);
+
+  return (
+    <VirtualList
+      items={items}
+      itemSize={50}
+      estimateSize={() => 50}
+      getScrollElement={() => document.querySelector('#scroll') as HTMLElement}
+      renderItem={(item) => <div>{item}</div>}
+      style={{ height: 400 }}
+    />
+  );
+}
+```
+
+> Also works well alongside `LazyImage` inside virtualized cells.
+
+
+
 
 ## Next.js Example
 
