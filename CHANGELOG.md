@@ -1,0 +1,36 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [1.2.0] - 2026-10-06
+
+### Added
+- `/virtual` namespace with `useVirtualizer` (fixed-size vertical/horizontal, overscan, scrollToIndex) and `VirtualList` component
+- Separate entrypoint exports (`./virtual`) with proper ESM/CJS/types
+- Documentation for virtual namespace and comparison vs TanStack Virtual
+- Document `LazySuspense`, `useLazy` and `LazySentinel` props; add README regression test (fence balance, self-contained examples, export coverage)
+
+### Changed
+- README: expanded props tables; removed `root`/`rootMargin`/`threshold`/`triggerOnce` from the `LazyImage` table (not supported by that component) and added `fadeInDuration`
+- package.json: added keywords (`virtualization`, `infinite-scroll`, `intersection-observer`, `sentinel`, `virtual-list`)
+
+### Fixed
+- `VirtualList` now wires its own scroll container instead of requiring an external `getScrollElement`
+- `exports["./virtual"]` pointed at non-existent paths (`dist/virtual/index.js`); the build now emits them, so `import from '@bentoo/react-lazy/virtual'` resolves
+- `useVirtualizer` uses an isomorphic layout effect, removing `useLayoutEffect` SSR warnings on React 18
+- `LazyImage` no longer passes an empty `src` to a custom `ImageComponent`. `next/image` warns on `src=""` and can re-download the current page; the custom component is now mounted only once the image may load, or once the preload failed so the browser can surface its broken-image state.
+- `useLazy`/`useLazyCallback`/`useIntersection` default their element generic to `HTMLDivElement`, so the returned `ref` is assignable to `<div ref={...}>` without an explicit type argument
+
+## [1.1.0] - 2026-10-06
+
+### Added
+- `LazySentinel` component for infinite scroll
+
+### Fixed
+- `LazyImage` ref handling with custom `ImageComponent` (Next.js)
+- Image loading/error state handling
+
+## [1.0.3] - 2026-10-06
+
+### Fixed
+- Minor type and build adjustments

@@ -33,7 +33,8 @@ describe("LazyImage", () => {
         )
 
         expect(IntersectionObserverMock.active).toBeDefined()
-        expect(rendered().getAttribute("src")).not.toBe("/photo.jpg")
+        // not mounted yet: never hand an empty src to a custom image component
+        expect(screen.queryByTestId("custom")).toBeNull()
 
         revealAndPreload()
 
@@ -121,8 +122,26 @@ describe("LazyImage", () => {
             <LazyImage ImageComponent={RefUnawareImage} src="/b.jpg" alt="Photo" />
         )
 
+        expect(screen.queryByTestId("custom")).toBeNull()
+
+        revealAndPreload()
+
+        expect(rendered().getAttribute("src")).toBe("/b.jpg")
         expect(rendered().style.opacity).toBe("0")
-        expect(rendered().getAttribute("src")).not.toBe("/b.jpg")
+    })
+
+    it("never passes an empty src to a custom ImageComponent", () => {
+        const seen: (string | undefined)[] = []
+        const Spy = ({ src }: ImgHTMLAttributes<HTMLImageElement>) => {
+            seen.push(src)
+            return <img data-testid="custom" alt="" />
+        }
+
+        const { rerender } = render(<LazyImage ImageComponent={Spy} src="/a.jpg" alt="Photo" />)
+        act(() => IntersectionObserverMock.active?.trigger(true))
+        rerender(<LazyImage ImageComponent={Spy} src="/a.jpg" alt="Photo" />)
+
+        expect(seen.every((s) => typeof s === "string" && s.length > 0)).toBe(true)
     })
 
     it("detaches preload handlers on unmount", () => {

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { useIntersection } from "./useIntersection";
 import { LazyCallbackProps } from "../types";
 
-export const useLazyCallback = <T extends HTMLElement>({
+export const useLazyCallback = <T extends HTMLElement = HTMLDivElement>({
     onVisible,
     root,
     rootMargin,

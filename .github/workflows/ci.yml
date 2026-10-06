@@ -9,6 +9,13 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # jsdom 30 requires ^22.22.2 || ^24.15.0 || >=26; undici 8 requires >=22.19.
+        # Pinning an older Node fails at require('jsdom') with
+        # "webidl.util.markAsUncloneable is not a function".
+        node-version: ['22.22.2', '24']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,7 +23,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: npm
           cache-dependency-path: package-lock.json
 
