@@ -189,27 +189,41 @@ Trigger loading when scrolling to the end of a list:
 import { useState } from 'react';
 import { LazySentinel } from '@bentoo/react-lazy';
 
+const PAGE = 20;
+const TOTAL = 100;
+
 export default function InfiniteList() {
-  const [items, setItems] = useState(Array.from({ length: 20 }, (_, i) => i));
+  const [items, setItems] = useState(Array.from({ length: PAGE }, (_, i) => i));
   const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
 
   async function loadMore() {
-    if (loading) return;
+    if (loading || done) return;
     setLoading(true);
     await new Promise((r) => setTimeout(r, 500));
-    setItems((prev) => [...prev, ...Array.from({ length: 20 }, (_, i) => prev.length + i)]);
+    setItems((prev) => [...prev, ...Array.from({ length: PAGE }, (_, i) => prev.length + i)]);
+    setDone(items.length + PAGE >= TOTAL);
     setLoading(false);
   }
 
   return (
     <div>
       {items.map((i) => <div key={i}>Item {i}</div>)}
-      <LazySentinel onVisible={loadMore} />
+      {!done && (
+        <LazySentinel onVisible={loadMore} triggerOnce={false} rootMargin="200px" />
+      )}
       {loading && <div>Loading...</div>}
     </div>
   );
 }
 ```
+
+> **`triggerOnce` defaults to `true`**, so a sentinel stops observing after the first
+> intersection and the list never loads a second page. Infinite scroll needs
+> `triggerOnce={false}`, plus two guards in your handler: a re-entrancy check while a
+> request is in flight (`loading`) and an end-of-list check that stops rendering the
+> sentinel (`done`). If the list scrolls inside its own container, also pass that
+> element as `root`.
 
 **Props**:
 
@@ -221,7 +235,7 @@ export default function InfiniteList() {
 | `style`       | `React.CSSProperties`| —         | Merged over the hidden defaults                 |
 | `root`/`rootMargin`/`threshold`/`triggerOnce` | see [shared props](#4-lazy-with-callback) | | |
 
-> The sentinel is hidden by default (`height: 0`, `visibility: hidden`, `pointer-events: none`) so it never takes up space. Pass `style` to override. It also forwards a ref and accepts children.
+> The sentinel is hidden by default (`height: 0`, `visibility: hidden`, `pointer-events: none`) so it never takes up space, and **its children are hidden with it** — render any status text as a sibling, not as children. Pass `style` (it merges over the hidden defaults) if you actually want a visible sentinel. It also forwards a ref.
 
 > Works with or without virtualization libraries (e.g., TanStack Virtual).
 
