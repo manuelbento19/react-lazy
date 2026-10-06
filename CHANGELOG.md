@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - `VirtualList` now wires its own scroll container instead of requiring an external `getScrollElement`
 - `exports["./virtual"]` pointed at non-existent paths (`dist/virtual/index.js`); the build now emits them, so `import from '@bentoo/react-lazy/virtual'` resolves
+- `useVirtualizer` guards `ResizeObserver`, so `VirtualList` no longer throws on mount in environments without it (jsdom, older browsers)
 - `useVirtualizer` uses an isomorphic layout effect, removing `useLayoutEffect` SSR warnings on React 18
 - `LazyImage` no longer passes an empty `src` to a custom `ImageComponent`. `next/image` warns on `src=""` and can re-download the current page; the custom component is now mounted only once the image may load, or once the preload failed so the browser can surface its broken-image state.
 - `useLazy`/`useLazyCallback`/`useIntersection` default their element generic to `HTMLDivElement`, so the returned `ref` is assignable to `<div ref={...}>` without an explicit type argument
