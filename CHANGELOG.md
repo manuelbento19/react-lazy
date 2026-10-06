@@ -13,6 +13,9 @@ All notable changes to this project will be documented in this file.
 - README: expanded props tables for `LazyImage` and `LazyComponent`
 - package.json: added keywords (`virtualization`, `infinite-scroll`, `intersection-observer`, `sentinel`, `virtual-list`)
 
+### Fixed
+- `VirtualList` now wires its own scroll container instead of requiring an external `getScrollElement`
+
 ## [1.1.0] - 2026-10-06
 
 ### Added

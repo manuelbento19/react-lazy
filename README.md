@@ -208,6 +208,8 @@ function VirtualList({ count = 1000 }) {
 
 #### `VirtualList` component
 
+`VirtualList` creates and owns its own scroll container, so you only pass the data and the row size:
+
 ```tsx
 import { VirtualList } from '@bentoo/react-lazy/virtual';
 
@@ -218,14 +220,25 @@ function App() {
     <VirtualList
       items={items}
       itemSize={50}
-      estimateSize={() => 50}
-      getScrollElement={() => document.querySelector('#scroll') as HTMLElement}
       renderItem={(item) => <div>{item}</div>}
       style={{ height: 400 }}
     />
   );
 }
 ```
+
+| Prop          | Type                                        | Description                                  |
+| ------------- | ------------------------------------------- | -------------------------------------------- |
+| `items`       | `T[]`                                       | Data to render                               |
+| `renderItem`  | `(item, index, virtual) => ReactNode`       | Renders a single row                         |
+| `itemSize`    | `number`                                    | Fixed row size in px                         |
+| `estimateSize`| `(index) => number`                         | Optional, used when `itemSize` is omitted    |
+| `overscan`    | `number`                                    | Extra rows rendered outside the viewport     |
+| `horizontal`  | `boolean`                                   | Lay out rows horizontally (default `false`)  |
+| `className`   | `string`                                    | Class for the scroll container               |
+| `style`       | `React.CSSProperties`                       | Styles for the scroll container              |
+
+> `VirtualList` derives `count` from `items.length` and manages its scroll element for you. Use `useVirtualizer` directly when you need to own the scroll container yourself.
 
 > Also works well alongside `LazyImage` inside virtualized cells.
 

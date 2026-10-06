@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useVirtualizer, UseVirtualizerOptions, VirtualItem } from './useVirtualizer'
 
-export type VirtualListProps<T> = UseVirtualizerOptions & {
+export type VirtualListProps<T> = Omit<UseVirtualizerOptions, 'getScrollElement' | 'scrollElement' | 'ref' | 'count'> & {
     items: T[]
     renderItem: (item: T, index: number, virtual: VirtualItem) => React.ReactNode
     className?: string
@@ -15,11 +15,18 @@ export function VirtualList<T>({
     style,
     ...options
 }: VirtualListProps<T>) {
-    const rowVirtualizer = useVirtualizer(options)
+    const scrollRef = useRef<HTMLDivElement | null>(null)
+    const getScrollElement = useCallback(() => scrollRef.current, [])
+
+    const rowVirtualizer = useVirtualizer({
+        ...options,
+        count: items.length,
+        getScrollElement
+    })
 
     return (
         <div
-            ref={() => {}}
+            ref={scrollRef}
             style={{
                 height: options.horizontal ? undefined : 400,
                 width: options.horizontal ? 400 : undefined,
