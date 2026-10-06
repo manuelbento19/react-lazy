@@ -30,7 +30,12 @@ export default defineConfig({
                 virtual: path.resolve(__dirname, "src/virtual/index.ts")
             },
             formats: ["es", "cjs"],
-            fileName: (format, entryName) => (format === "cjs" ? `${entryName}.cjs` : `${entryName}.js`)
+            // Keep bundle paths aligned with `package.json#exports`:
+            // "." -> dist/index.{js,cjs}, "./virtual" -> dist/virtual/index.{js,cjs}
+            fileName: (format, entryName) => {
+                const ext = format === "cjs" ? "cjs" : "js"
+                return entryName === "index" ? `index.${ext}` : `${entryName}/index.${ext}`
+            }
         },
         rollupOptions: {
             external,

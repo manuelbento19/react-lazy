@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - `VirtualList` now wires its own scroll container instead of requiring an external `getScrollElement`
+- `exports["./virtual"]` pointed at non-existent paths (`dist/virtual/index.js`); the build now emits them, so `import from '@bentoo/react-lazy/virtual'` resolves
+- `useVirtualizer` uses an isomorphic layout effect, removing `useLayoutEffect` SSR warnings on React 18
 
 ## [1.1.0] - 2026-10-06
 

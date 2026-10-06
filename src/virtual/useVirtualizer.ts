@@ -1,4 +1,9 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+
+// `useLayoutEffect` warns when rendering on the server (React 18).
+// Fall back to `useEffect` so the virtual namespace stays SSR-safe.
+const useIsomorphicLayoutEffect =
+    typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export type VirtualItem = {
     index: number
@@ -93,7 +98,7 @@ export function useVirtualizer({
         return paddingStart + sum + paddingEnd
     }, [count, itemSize, getSize, paddingStart, paddingEnd])
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const el = getScrollElement?.() || scrollElement || ref?.current
         if (!el) return
 
